@@ -65,22 +65,13 @@ def bubbleSort(nums):
     return nums
 
 
-def quickSort(nums, low, high):
-    if len(nums) <= 1:return
-    if low >= high: return
-    left, right = low, high
-    temp = nums[left]
-    while left < right:
-        while right > left and nums[right] >= temp:
-            right -= 1
-        nums[left] = nums[right]
-        while left < right and nums[left] <= temp:
-            left += 1
-        nums[right] = nums[left]
-    nums[left] = temp
-    quickSort(nums, 0, left-1)
-    quickSort(nums, left+1, high)
-
+def quickSort(nums):
+    if nums == []:
+        return nums
+    temp = nums[0]
+    less = [x for x in temp[1:] if x <= temp]
+    greater = [x for x in temp[1:] if x > temp]
+    return less + [temp] + greater
 
 def mergeSort(nums):
     if len(nums) <= 1: return nums
@@ -94,18 +85,13 @@ def mergeSort(nums):
 
 def mergeTwoArray(array1, array2):
     res = []
-    i, j = 0, 0
-    while i < len(array1) and j < len(array2):
-        if array1[i] < array2[j]:
-            res.append(array1[i])
-            i += 1
+    while array1 and array2:
+        if array1[0] < array2[0]:
+            res.append(array1[0])
+            del array1[0]
         else:
-            res.append(array2[j])
-            j += 1
-    while i < len(array1):
-        res.append(array1[i])
-        i += 1
-    while j < len(array2):
-        res.append(array2[j])
-        j += 1
+            res.append(array2[0])
+            del array2[0]
+    res.extend(array1)
+    res.extend(array2)
     return res
